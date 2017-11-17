@@ -143,7 +143,8 @@ void mousePressed() {
    gameTime = millis();
    gameEnd = false;
    }
- println("click");
+
+
 }
 
 void controllerChange(int channel, int number, int value) {
