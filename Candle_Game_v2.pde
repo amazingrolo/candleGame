@@ -4,7 +4,7 @@ import themidibus.*;
 
 MidiBus myBus; // The MidiBus
 
-boolean debug = false;
+boolean debug = true;
 
 int numPlayers = 2;
 int numCandles = 4;
@@ -40,6 +40,8 @@ float pulseValue;
 float turning;
 int[] player1candles = {30,31,32,33}; // cc values of candles
 int[] player2candles = {36,39,40,41};
+int[] player1modelights = {60,61,62,63};
+int[] player2modelights = {64,65,66,67};
 
 int[] candleValues1 = new int[numCandles];
 int[] candleValues2 = new int[numCandles];
@@ -52,12 +54,12 @@ void setup() {
    color1 = int(random(255));
    color2 = int(random(255));
    color3 = int(random(255));
-fullScreen();
-//  size(1000, 700);
+// fullScreen();
+  size(1000, 700);
   offset = int((width-candleDisplay)/2+candleSize/2);
   
   MidiBus.list();
-  myBus = new MidiBus(this, "Teensy MIDI", "Teensy MIDI");
+  myBus = new MidiBus(this, "Teensy MIDI", "to Max 1");
   
     players[0] = new Player(candleSize+scoreSize, PI);
     players[1] = new Player(height-(candleSize+scoreSize), 0);
@@ -82,6 +84,20 @@ for (int i = 0;i<numPlayers;i++){
  winDisplay = false;
     gameTimeDisplay = gameLength-int(((millis()-gameTime)/1000));
     
+    for (int i = 0; i<numCandles;i++) {
+     if (players[0].candleMode[i] == 1) {  
+      myBus.sendNoteOn(1,player1modelights[i],100);
+     } else {
+      myBus.sendNoteOff(1,player1modelights[i],100);
+      }
+      
+     if (players[1].candleMode[i] == 1) {  
+      myBus.sendNoteOn(1,player2modelights[i],100);
+     } else {
+      myBus.sendNoteOff(1,player2modelights[i],100);
+      }
+      
+    }
    
   if (millis()-currentTime > switchMode) {
     println("SWITCH");
@@ -101,7 +117,8 @@ for (int i = 0;i<numPlayers;i++){
      textAlign(CENTER,CENTER);
      translate(width/2,height/2);   
      rotate(turning%TWO_PI);
-       fill(255,255,255);
+      fill(255,0,0); 
+     
       text(str(gameTimeDisplay), 0,0);
   popMatrix();
 
@@ -134,7 +151,9 @@ void mousePressed() {
 
     for (int i = 0; i<numCandles; i++) {
   players[1].candleLit[i] = int(random(2));
-  } 
+  }
+  players[0].randomCandles();
+  players[1].randomCandles();
  }
    if (gameOn == false) {
    gameOn = true; 
