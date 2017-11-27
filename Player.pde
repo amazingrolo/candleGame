@@ -41,12 +41,12 @@ class Player {
       score++;
       textSize(30);
       textAlign(CENTER,CENTER);
-      text("Light your candles!",candleDisplay/2,-(candleSize/2)-padding); 
+ //     text("Light your candles!",candleDisplay/2,-(candleSize/2)-padding); 
     } else {
-     score--; 
+     score=score-2; 
      textSize(30);
      textAlign(CENTER,CENTER);
-     text("Blow out your candles!",candleDisplay/2,-(candleSize/2)-padding); 
+  //   text("Blow out your candles!",candleDisplay/2,-(candleSize/2)-padding); 
     }
     
     if (score<0) {
@@ -59,6 +59,7 @@ class Player {
   }
     textSize(scoreSize);
     textAlign(CENTER, TOP);
+    fill(255,255,255);
     text(str(score),candleDisplay/2,candleSize/2); 
     
     //if (score > winThreshold) {

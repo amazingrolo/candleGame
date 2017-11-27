@@ -4,6 +4,9 @@ import themidibus.*;
 
 MidiBus myBus; // The MidiBus
 
+PFont font;
+
+
 boolean debug = false;
 
 int numPlayers = 2;
@@ -49,9 +52,11 @@ int switchMode = int(random(10000));
 int currentTime;
 
 void setup() {
-   color1 = int(random(255));
-   color2 = int(random(255));
-   color3 = int(random(255));
+  font = loadFont("AvenirNext-Bold-48.vlw");
+  textFont(font);
+   color1 = 0;
+   color2 = 100;
+   color3 = 255;
 fullScreen();
 //  size(1000, 700);
   offset = int((width-candleDisplay)/2+candleSize/2);
@@ -66,7 +71,11 @@ fullScreen();
 
 void draw() {
    turning += .02;
-  background(0);
+   if (lightDark) {
+  background(255,0,0);
+   } else {
+     background(0);
+   }
   strokeWeight(1);
   line(0,height/2,width,height/2);
 
@@ -104,6 +113,45 @@ for (int i = 0;i<numPlayers;i++){
        fill(255,255,255);
       text(str(gameTimeDisplay), 0,0);
   popMatrix();
+  
+  if (lightDark) {
+      pushMatrix();
+     textSize(100);
+     textAlign(CENTER,CENTER);
+     translate(width*.8,height/2);   
+     rotate(.5*PI);
+       fill(255,255,255);
+      text("DARK", 0,0);
+  popMatrix();
+  
+        pushMatrix();
+     textSize(100);
+     textAlign(CENTER,CENTER);
+     translate(width*.2,height/2);   
+     rotate(1.5*PI);
+       fill(255,255,255);
+      text("DARK", 0,0);
+  popMatrix();
+    
+  } else {
+          pushMatrix();
+     textSize(100);
+     textAlign(CENTER,CENTER);
+     translate(width*.8,height/2);   
+     rotate(.5*PI);
+       fill(255,255,255);
+      text("LIGHT", 0,0);
+  popMatrix();
+  
+            pushMatrix();
+     textSize(100);
+     textAlign(CENTER,CENTER);
+     translate(width*.2,height/2);   
+     rotate(1.5*PI);
+       fill(255,255,255);
+      text("LIGHT", 0,0);
+  popMatrix();
+  }
 
 if (gameTimeDisplay == 0) {
  gameOn = false;
@@ -118,9 +166,17 @@ if (gameTimeDisplay == 0) {
   pushMatrix();
      textSize(75+pulseValue);
      textAlign(CENTER,CENTER);
-     translate(width/2,height/2);   
+     translate(width/2,(height/2)+100);   
      rotate(turning%TWO_PI);
      text("click to play",0,0); 
+  popMatrix();
+  
+    pushMatrix();
+     textSize(75+pulseValue);
+     textAlign(CENTER,CENTER);
+     translate(width/2,(height/2));   
+     rotate(turning%TWO_PI);
+     text("CANDLES: THE GAME",0,0); 
   popMatrix();
   }
 
